@@ -36,14 +36,17 @@
         <div class="overflow-x-auto overflow-y-visible">
             <table class="text-left">
                 <thead class="bg-gray-50/50">
-                    <tr class="text-gray-500 text-[11px] uppercase font-black tracking-widest">
-                        <th class="p-6 text-center w-20">SL</th>
-                        <th class="p-6">Member Name</th>
-                        <th class="p-6">Date</th>
-                        <th class="p-6 text-center w-32">Status</th>
-                        <th class="p-6 text-center w-32 bg-blue-50/30">Final Approval</th>
-                    </tr>
-                </thead>
+    <tr class="text-gray-500 text-[11px] uppercase font-black tracking-widest">
+        <th class="p-6 text-center w-12">SL</th> 
+        
+        <th class="p-6 w-auto">Member Name</th>
+        
+        <th class="p-6 w-40">Date</th>
+        
+        <th class="p-6 text-center w-24">Status</th>
+        <th class="p-6 text-center w-24 bg-blue-50/30">Final Approval</th>
+    </tr>
+</thead>
                 <tbody id="table-body"></tbody>
             </table>
         </div>
@@ -129,20 +132,32 @@
             const aAppr = appData[dateKey + '_appr'] || '';
             const isLocked = mStatus !== '';
 
-            const row = `
-                <tr class="hover:bg-indigo-50/30 transition-colors">
-                    <td class="p-6 text-center text-gray-300 font-black text-sm">${i+1}</td>
-                    <td class="p-6">
-                        <input type="text" value="${memberNames[i]||''}" onchange="window.saveName(${i}, this.value)" ${isLocked && !isAdmin ? 'readonly' : ''} class="w-full bg-transparent font-bold ${isLocked && !isAdmin ? 'text-gray-400' : 'text-gray-600'} outline-none">
-                    </td>
-                    <td class="p-6 text-gray-400 font-bold text-sm">${dateString}</td>
-                    <td class="p-6 text-center">
-                        <div onclick="${(!isLocked || isAdmin) ? `window.openModal('${dateKey}')` : ''}" class="w-12 h-12 mx-auto flex items-center justify-center rounded-2xl border-2 font-black text-xl ${mStatus ? (mStatus==='✔'?'text-green-600 bg-green-50 border-transparent':'text-red-600 bg-red-50 border-transparent') : 'border-dashed border-gray-200 text-gray-300 hover:border-indigo-400 cursor-pointer'}">${mStatus}</div>
-                    </td>
-                    <td class="p-6 text-center bg-blue-50/10">
-                        <div onclick="${isAdmin ? `window.openModal('${dateKey}_appr')` : ''}" class="w-12 h-12 mx-auto flex items-center justify-center rounded-2xl border-2 font-black text-xl ${aAppr ? (aAppr==='✔'?'text-blue-600 bg-blue-100 border-transparent':'text-orange-600 bg-orange-100 border-transparent') : (isAdmin ? 'border-blue-300 text-blue-300 cursor-pointer' : 'text-transparent')}">${aAppr}</div>
-                    </td>
-                </tr>`;
+            // renderUI function er bhitorer row template ta eivabe update korun:
+const row = `
+    <tr class="hover:bg-indigo-50/30 transition-colors border-b border-gray-100">
+        <td class="p-6 text-center text-gray-400 font-black text-sm">${i+1}</td>
+        <td class="p-6">
+            <input type="text" 
+                placeholder="Enter Name..."
+                value="${memberNames[i]||''}" 
+                onchange="window.saveName(${i}, this.value)" 
+                ${isLocked && !isAdmin ? 'readonly' : ''} 
+                class="w-full bg-transparent font-bold ${isLocked && !isAdmin ? 'text-gray-400' : 'text-gray-700'} outline-none focus:border-b border-blue-400">
+        </td>
+        <td class="p-6 text-gray-400 font-bold text-sm whitespace-nowrap">${dateString}</td>
+        <td class="p-6 text-center">
+            <div onclick="${(!isLocked || isAdmin) ? `window.openModal('${dateKey}')` : ''}" 
+                class="w-10 h-10 mx-auto flex items-center justify-center rounded-xl border-2 font-black text-lg ${mStatus ? (mStatus==='✔'?'text-green-600 bg-green-50 border-transparent':'text-red-600 bg-red-50 border-transparent') : 'border-dashed border-gray-200 text-gray-300 hover:border-indigo-400 cursor-pointer'}">
+                ${mStatus}
+            </div>
+        </td>
+        <td class="p-6 text-center bg-blue-50/5">
+            <div onclick="${isAdmin ? `window.openModal('${dateKey}_appr')` : ''}" 
+                class="w-10 h-10 mx-auto flex items-center justify-center rounded-xl border-2 font-black text-lg ${aAppr ? (aAppr==='✔'?'text-blue-600 bg-blue-100 border-transparent':'text-orange-600 bg-orange-100 border-transparent') : (isAdmin ? 'border-blue-300 text-blue-300 cursor-pointer' : 'text-transparent')}">
+                ${aAppr}
+            </div>
+        </td>
+    </tr>`;
             tbody.insertAdjacentHTML('beforeend', row);
             date.setDate(date.getDate() + 7);
         }
