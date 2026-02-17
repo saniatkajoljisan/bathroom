@@ -59,7 +59,7 @@
     </div>
 </div>
 
-<p class="text-center text-gray-400 text-[10px] mt-12 mb-8 tracking-[0.3em] font-bold uppercase">Dream City Mess - Live System</p>
+<p class="text-center text-gray-400 text-[10px] mt-12 mb-8 tracking-[0.3em] font-bold uppercase">Dream City Mess - Sk Jisan</p>
 
 <div id="selectionModal" class="modal">
     <div class="bg-white p-8 rounded-[32px] shadow-2xl w-80 text-center">
@@ -102,7 +102,7 @@
             appData = data.status || {};
             memberNames = data.names || memberNames;
         }
-        document.getElementById('live-indicator').innerText = "● Live Sync Active";
+        document.getElementById('live-indicator').innerHTML = '<span class="text-green-400 text-lg">●</span> Live Sync Active';
         renderUI();
     });
 
