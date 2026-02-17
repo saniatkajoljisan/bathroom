@@ -41,7 +41,7 @@
         
         <th class="p-6 w-auto">Member Name</th>
         
-        <th class="p-6 w-40">Date</th>
+        <th class="p-6 w-40">Date (Friday)</th>
         
         <th class="p-6 text-center w-24">Status</th>
         <th class="p-6 text-center w-24 bg-blue-50/30">Final Approval</th>
@@ -125,7 +125,7 @@
 
         for (let i = 0; i < 6; i++) {
             const dateKey = `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`;
-            const dateString = date.toLocaleDateString('en-GB', { weekday:'long', day:'numeric', month:'short', year:'numeric' });
+            const dateString = date.toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' });
             
             // Fix: Getting status and approval from appData
             const mStatus = appData[dateKey] || '';
