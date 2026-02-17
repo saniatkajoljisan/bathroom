@@ -92,7 +92,7 @@
     const dbRef = ref(db, 'clean_system');
 
     let appData = {};
-    let memberNames = ["Member 1", "Member 2", "Member 3", "Member 4", "Member 5"];
+    let memberNames = ["Member 1", "Member 2", "Member 3", "Member 4", "Member 5", "Member 6"];
     let activeCellId = null;
 
     onValue(dbRef, (snapshot) => {
@@ -117,7 +117,7 @@
         tbody.innerHTML = '';
         let date = new Date(currentFriday);
 
-        for (let i = 0; i < 5; i++) {
+        for (let i = 0; i < 6; i++) {
             const dateKey = `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`;
             const dateString = date.toLocaleDateString('en-GB', { weekday:'long', day:'numeric', month:'short', year:'numeric' });
             const status = appData[dateKey] || '';
