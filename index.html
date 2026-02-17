@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bathroom Clean Schedule - Live</title>
+    <title>Bathroom Clean Schedule - Live System</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;900&display=swap" rel="stylesheet">
     <style>
@@ -29,7 +29,7 @@
     <div class="bg-white box-shadow-custom rounded-[32px] border border-white relative">
         <div class="sticky-header p-8 text-center text-white relative">
             <h1 class="text-2xl md:text-4xl font-black tracking-tight drop-shadow-md">Bathroom Clean Schedule</h1>
-            <p id="live-indicator" class="text-[10px] opacity-90 font-bold mt-1 tracking-widest uppercase">Connecting to Live Server...</p>
+            <div id="live-indicator" class="text-[10px] opacity-90 font-bold mt-1 tracking-widest uppercase">Connecting...</div>
         </div>
 
         <div class="overflow-x-auto overflow-y-visible">
@@ -49,7 +49,7 @@
 
     <div class="bg-white/60 box-shadow-custom rounded-[32px] overflow-hidden border border-white/50">
         <div class="bg-gray-200/80 p-4 text-center backdrop-blur-sm">
-            <h2 class="text-sm font-black text-gray-600 uppercase tracking-widest">Previous History (Last 8 Weeks)</h2>
+            <h2 class="text-sm font-black text-gray-600 uppercase tracking-widest">Previous History (Past 8 Weeks)</h2>
         </div>
         <div class="overflow-x-auto">
             <table class="text-left opacity-70">
@@ -59,7 +59,7 @@
     </div>
 </div>
 
-<p class="text-center text-gray-400 text-[10px] mt-12 mb-8 tracking-[0.3em] font-bold uppercase">Dream City Mess - Sk Jisan</p>
+<p class="text-center text-gray-400 text-[10px] mt-12 mb-8 tracking-[0.3em] font-bold uppercase">Dream City Mess - Skjisan</p>
 
 <div id="selectionModal" class="modal">
     <div class="bg-white p-8 rounded-[32px] shadow-2xl w-80 text-center">
@@ -95,7 +95,6 @@
     let memberNames = ["Member 1", "Member 2", "Member 3", "Member 4", "Member 5"];
     let activeCellId = null;
 
-    // Listen for changes
     onValue(dbRef, (snapshot) => {
         const data = snapshot.val();
         if (data) {
@@ -103,19 +102,17 @@
             memberNames = data.names || memberNames;
         }
         document.getElementById('live-indicator').innerHTML = `
-    <span class="flex items-center justify-center gap-1.5">
-        <span class="text-green-400 text-lg leading-none">●</span> 
-        <span>Live Sync Active</span>
-    </span>
-`;
-renderUI();
+            <span class="flex items-center justify-center gap-1.5">
+                <span class="text-green-400 text-lg leading-none">●</span> 
+                <span>Live Sync Active</span>
+            </span>`;
+        renderUI();
     });
 
     function renderUI() {
         const now = new Date();
         let currentFriday = getFirstFridayOfMonth(now.getFullYear(), now.getMonth());
         
-        // Render Table
         const tbody = document.getElementById('table-body');
         tbody.innerHTML = '';
         let date = new Date(currentFriday);
@@ -130,18 +127,25 @@ renderUI();
                 <tr class="hover:bg-indigo-50/30 transition-colors">
                     <td class="p-6 text-center text-gray-300 font-black text-sm">${i+1}</td>
                     <td class="p-6">
-                        <input type="text" value="${memberNames[i]||''}" onchange="window.saveName(${i}, this.value)" class="w-full bg-transparent font-bold text-gray-600 outline-none">
+                        <input type="text" value="${memberNames[i]||''}" 
+                            onchange="window.saveName(${i}, this.value)" 
+                            ${isLocked ? 'readonly' : ''} 
+                            class="w-full bg-transparent font-bold ${isLocked ? 'text-gray-400 cursor-not-allowed' : 'text-gray-600'} outline-none">
                     </td>
                     <td class="p-6 text-gray-400 font-bold text-sm">${dateString}</td>
                     <td class="p-6 text-center">
-                        <div onclick="${!isLocked ? `window.openModal('${dateKey}')` : ''}" class="w-12 h-12 mx-auto flex items-center justify-center rounded-2xl border-2 font-black text-xl ${isLocked ? (status==='✔'?'text-green-600 bg-green-50 border-transparent':'text-red-600 bg-red-50 border-transparent') : 'border-dashed border-gray-200 text-gray-300 hover:border-indigo-400 hover:text-indigo-400 cursor-pointer'}">${status}</div>
+                        <div onclick="${!isLocked ? `window.openModal('${dateKey}')` : ''}" 
+                            class="w-12 h-12 mx-auto flex items-center justify-center rounded-2xl border-2 font-black text-xl 
+                            ${isLocked ? (status==='✔'?'text-green-600 bg-green-50 border-transparent':'text-red-600 bg-red-50 border-transparent') 
+                            : 'border-dashed border-gray-200 text-gray-300 hover:border-indigo-400 hover:text-indigo-400 cursor-pointer'}">
+                            ${status}
+                        </div>
                     </td>
                 </tr>`;
             tbody.insertAdjacentHTML('beforeend', row);
             date.setDate(date.getDate() + 7);
         }
 
-        // Render History
         const historyBody = document.getElementById('history-body');
         historyBody.innerHTML = '';
         let histDate = new Date(currentFriday);
@@ -150,10 +154,14 @@ renderUI();
 
         for (let i = 0; i < 20; i++) {
             const dateKey = `${histDate.getFullYear()}-${histDate.getMonth()+1}-${histDate.getDate()}`;
-            const dString = histDate.toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' });
             const s = appData[dateKey] || '';
             if (s && count < 8) {
-                historyBody.insertAdjacentHTML('beforeend', `<tr class="bg-white/30"><td class="p-4 text-xs font-bold text-gray-400">${dString}</td><td class="p-4 text-sm font-bold text-gray-600">Friday Duty Log</td><td class="p-4 text-center font-black text-lg ${s==='✔'?'text-green-400':'text-red-400'}">${s}</td></tr>`);
+                historyBody.insertAdjacentHTML('beforeend', `
+                    <tr class="bg-white/30">
+                        <td class="p-4 text-xs font-bold text-gray-400">${histDate.toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' })}</td>
+                        <td class="p-4 text-sm font-bold text-gray-600">Friday Duty Log</td>
+                        <td class="p-4 text-center font-black text-lg ${s==='✔'?'text-green-400':'text-red-400'}">${s}</td>
+                    </tr>`);
                 count++;
             }
             histDate.setDate(histDate.getDate() - 7);
@@ -167,7 +175,6 @@ renderUI();
         return d;
     }
 
-    // Window global functions
     window.saveName = (index, val) => {
         memberNames[index] = val;
         update(dbRef, { names: memberNames });
