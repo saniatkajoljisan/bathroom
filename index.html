@@ -79,7 +79,7 @@ class="text-center text-[10px] font-bold tracking-widest uppercase text-gray-400
 ⏳ Waiting for admin final approval…
 </div>
 <div class="notice-box mb-2">
-    <marquee id="monthMarquee" style="color: rgba(70, 153, 236, 0.85);padding: px;border-radius: 6px;border:1px solid #699ef5;margin-top: 5px;" behavior="scroll">After cleaning the bathroom, enter your name and update the status to (✅).</marquee>
+    <marquee id="monthMarquee" style="color: rgba(70, 153, 236, 0.85);padding: px;border-radius: 6px;border:1px solid #699ef5;margin-top: 5px;" behavior="scroll">After cleaning the bathroom, enter your name and update the status to (✔️).</marquee>
 </div>
 
 </div>
@@ -206,7 +206,7 @@ tbody.insertAdjacentHTML('beforeend',`
        value="${memberNames[i] && memberNames[i] !== 'Name' ? memberNames[i] : ''}" 
        onchange="saveName(${i},this.value || 'Name')"
        ${s&&!isAdmin?'readonly':''}
-       class="w-full bg-transparent font-semibold ${s&&!isAdmin?'text-gray-400':'text-gray-600'} outline-none placeholder-gray-300">
+       class="w-full bg-transparent font-semibold ${s&&!isAdmin?'text-gray-400':'text-gray-500'} outline-none placeholder-gray-300">
 </td>
 <td class="p-6 text-gray-400 font-bold text-sm">
 ${d.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}
