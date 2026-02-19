@@ -55,6 +55,14 @@ body.dark input::placeholder { color: #64748b !important; }
 body.dark input[readonly] { color: #94a3b8 !important; }
 body.dark .bg-blue-100 { background: rgba(96, 165, 250, 0.3) !important; }
 body.dark th, body.dark td { border-bottom-color: #334155 !important; }
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0.3; }
+}
+
+#live-indicator {
+  animation: blink 1.5s infinite;
+}
 </style>
 </head>
 
