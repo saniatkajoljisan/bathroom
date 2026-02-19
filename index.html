@@ -202,9 +202,11 @@ tbody.insertAdjacentHTML('beforeend',`
 <tr class="hover:bg-indigo-50/30">
 <td class="p-6 text-center text-gray-300 font-black">${i+1}</td>
 <td class="p-6">
-<input value="${memberNames[i]||''}" onchange="saveName(${i},this.value)"
-${s&&!isAdmin?'readonly':''}
-class="w-full bg-transparent font-semibold ${s&&!isAdmin?'text-gray-400':'text-gray-600'} outline-none">
+<input placeholder="${memberNames[i] || 'Name'}" 
+       value="${memberNames[i] && memberNames[i] !== 'Name' ? memberNames[i] : ''}" 
+       onchange="saveName(${i},this.value || 'Name')"
+       ${s&&!isAdmin?'readonly':''}
+       class="w-full bg-transparent font-semibold ${s&&!isAdmin?'text-gray-400':'text-gray-600'} outline-none placeholder-gray-300">
 </td>
 <td class="p-6 text-gray-400 font-bold text-sm">
 ${d.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}
@@ -295,7 +297,10 @@ document.getElementById('selectionModal').classList.remove('active');
 activeCellId=null;
 };
 window.closeCycleModal=()=>document.getElementById('cycleModal').classList.remove('active');
-window.saveName=(i,v)=>{memberNames[i]=v;update(dbRef,{names:memberNames});};
+window.saveName=(i,v)=>{
+    memberNames[i]=v.trim() === '' ? 'Name' : v.trim();
+    update(dbRef,{names:memberNames});
+};
 </script>
 <script src="https://cdn.jsdelivr.net/gh/saniatkajoljisan/bathroom/flip.js"></script>
 
