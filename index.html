@@ -55,7 +55,7 @@ Connecting...
 
 <div>
 <div class="flex justify-between text-[10px] font-black tracking-widest uppercase text-gray-600 mb-1">
-<span>Status Progress</span>
+<span>Total Status Ratio</span>
 <span id="statusPercent">0%</span>
 </div>
 <div class="w-full h-2 rounded-full bg-blue-100 overflow-hidden">
@@ -65,7 +65,7 @@ Connecting...
 
 <div>
 <div class="flex justify-between text-[10px] font-black tracking-widest uppercase text-gray-600 mb-1">
-<span>Approval Progress</span>
+<span>Total Approval Ratio</span>
 <span id="approvalPercent">0%</span>
 </div>
 <div class="w-full h-2 rounded-full bg-blue-100 overflow-hidden">
@@ -76,7 +76,7 @@ Connecting...
 <!-- 🆕 WAITING MESSAGE -->
 <div id="waitingMsg"
 class="text-center text-[10px] font-bold tracking-widest uppercase text-gray-400 hidden">
-⏳ Waiting for admin approval…
+⏳ Waiting for admin final approval…
 </div>
 <div class="notice-box mb-2">
     <marquee id="monthMarquee" style="color: rgba(70, 153, 236, 0.85);padding: px;border-radius: 6px;border:1px solid #699ef5;margin-top: 5px;" behavior="scroll">After cleaning the bathroom, enter your name and update the status.</marquee>
@@ -117,7 +117,7 @@ Dream City Mess - Skjisan
 <div class="bg-white p-8 rounded-[32px] shadow-2xl w-80 text-center">
 <h3 class="text-lg font-black text-gray-800 mb-2 uppercase italic">Select Status</h3>
 <p class="text-gray-400 text-[10px] mb-6 font-bold uppercase tracking-wider">
-Warning: Cannot be edited later
+Warning: You Cannot Change It later
 </p>
 
 <div class="flex gap-3">
@@ -127,7 +127,7 @@ Warning: Cannot be edited later
 </div>
 
 <button onclick="closeModal()" class="mt-6 text-gray-400 text-[10px] font-black uppercase tracking-widest">
-Cancel
+Close
 </button>
 </div>
 </div>
@@ -163,7 +163,7 @@ const app=initializeApp(firebaseConfig);
 const db=getDatabase(app);
 const dbRef=ref(db,'clean_system');
 
-let appData={}, memberNames=["Member 1","Member 2","Member 3","Member 4","Member 5","Member 6"];
+let appData={}, memberNames=["Name","Name","Name","Name","Name","Name"];
 let activeCellId=null,isAdmin=false,startFriday=null;
 
 const getNextFriday=d=>{
@@ -204,7 +204,7 @@ tbody.insertAdjacentHTML('beforeend',`
 <td class="p-6">
 <input value="${memberNames[i]||''}" onchange="saveName(${i},this.value)"
 ${s&&!isAdmin?'readonly':''}
-class="w-full bg-transparent font-bold ${s&&!isAdmin?'text-gray-400':'text-gray-600'} outline-none">
+class="w-full bg-transparent font-semibold ${s&&!isAdmin?'text-gray-400':'text-gray-600'} outline-none">
 </td>
 <td class="p-6 text-gray-400 font-bold text-sm">
 ${d.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}
