@@ -269,13 +269,15 @@ function renderUI(){
         </tr>`);
         d.setDate(d.getDate()+7);
     }
-const sp=Math.round((sc/6)*100);
-const ap=Math.round((ac/6)*100);
+const total = 6; 
+const sp = Math.round((sc/total)*100);
+const ap = Math.round((ac/total)*100);
 
-document.getElementById('statusBar').style.width=sp+'%';
-document.getElementById('approvalBar').style.width=ap+'%';
-document.getElementById('statusPercent').innerText=sp+'%';
-document.getElementById('approvalPercent').innerText=ap+'%';
+document.getElementById('statusBar').style.width = sp + '%';
+document.getElementById('approvalBar').style.width = ap + '%';
+
+document.getElementById('statusPercent').innerText = sc + ' OF ' + total;
+document.getElementById('approvalPercent').innerText = ac + ' OF ' + total;
 
 const waitMsg=document.getElementById('waitingMsg');
 if(sc===6 && ac<6) waitMsg.classList.remove('hidden');
