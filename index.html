@@ -233,8 +233,9 @@ appId:"1:1060489726116:web:46c68029ecd2b216463e31"
 const app=initializeApp(firebaseConfig);
 const db=getDatabase(app);
 const dbRef=ref(db,'clean_system');
+const TOTAL_MEMBERS = 6;
 
-let appData={}, memberNames=["Name","Name","Name","Name","Name","Name"];
+let appData={}, memberNames = Array(TOTAL_MEMBERS).fill("Name");
 let activeCellId=null,isAdmin=false,startFriday=null;
 
 const getNextFriday=d=>{
@@ -267,7 +268,7 @@ function renderUI(){
     const today = new Date();
     const todayStr = `${today.getFullYear()}-${today.getMonth()+1}-${today.getDate()}`;
 
-    for(let i=0;i<6;i++){
+    for(let i=0;i<TOTAL_MEMBERS;i++){
         const k=`${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`;
         const s=appData[k]||'', a=appData[k+'_appr']||'';
         if(s) sc++; if(a) ac++;
@@ -305,7 +306,7 @@ function renderUI(){
         </tr>`);
         d.setDate(d.getDate()+7);
     }
-const total = 6; 
+const total = TOTAL_MEMBERS; 
 const sp = Math.round((sc/total)*100);
 const ap = Math.round((ac/total)*100);
 
@@ -333,7 +334,7 @@ if(sunIcon && moonIcon) {
 
 function cycleComplete(){
 let d=new Date(startFriday);
-for(let i=0;i<6;i++){
+for(let i=0;i<TOTAL_MEMBERS;i++){
 const k=`${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`;
 if(!appData[k]||!appData[k+'_appr']) return false;
 d.setDate(d.getDate()+7);
@@ -361,11 +362,15 @@ await update(ref(db,'clean_system/status'),{[activeCellId]:status});
 
 if(isAdmin && activeCellId.endsWith('_appr') && cycleComplete()){
 const next = new Date(startFriday);
-next.setDate(next.getDate() + (6 * 7));
+next.setDate(next.getDate() + (TOTAL_MEMBERS * 7));
 document.getElementById('nextCycleText').innerText=
 `Next cycle starts from: ${next.toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})}`;
 document.getElementById('cycleModal').classList.add('active');
-await update(dbRef,{startFriday:next.toISOString(),status:{}});
+await update(dbRef,{
+  startFriday: next.toISOString(),
+  status: {},
+  names: Array(TOTAL_MEMBERS).fill("Name")
+});
 }
 closeModal();
 };
