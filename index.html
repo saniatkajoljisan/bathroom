@@ -360,8 +360,8 @@ if(!activeCellId) return;
 await update(ref(db,'clean_system/status'),{[activeCellId]:status});
 
 if(isAdmin && activeCellId.endsWith('_appr') && cycleComplete()){
-const next=new Date(startFriday);
-next.setDate(next.getDate()+7);
+const next = new Date(startFriday);
+next.setDate(next.getDate() + (6 * 7));
 document.getElementById('nextCycleText').innerText=
 `Next cycle starts from: ${next.toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})}`;
 document.getElementById('cycleModal').classList.add('active');
