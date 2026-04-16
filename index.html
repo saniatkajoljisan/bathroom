@@ -184,6 +184,12 @@ class="text-center text-gray-400 text-[10px] mt-12 mb-8 tracking-[0.3em] font-bo
 Dream City Mess - Skjisan
 </p>
 
+<div id="adminPanel" class="text-center -mt-4 mb-8 hidden">
+<button onclick="openArchiveModal()" class="px-5 py-2 rounded-2xl bg-blue-600 text-white text-[10px] font-black uppercase tracking-widest">
+Archive
+</button>
+</div>
+
 <div id="selectionModal" class="modal">
 <div class="bg-white p-8 rounded-[32px] shadow-2xl w-80 text-center">
 <h3 class="text-lg font-black text-gray-800 mb-2 uppercase italic">Select Status</h3>
@@ -216,6 +222,41 @@ OK
 </div>
 </div>
 
+<div id="archiveModal" class="modal">
+<div class="bg-white rounded-[32px] shadow-2xl w-[94vw] max-w-4xl max-h-[90vh] overflow-y-auto">
+
+<div class="sticky-header p-5 text-center text-white relative">
+<h3 class="text-[14px] md:text-2xl font-black uppercase tracking-[0.15em] md:tracking-[0.25em] drop-shadow-md text-center py-3">Archive</h3>
+<button onclick="closeArchiveModal()" class="absolute right-5 top-1/2 -translate-y-1/2 text-white/90 hover:text-white text-xl font-black">×</button>
+</div>
+
+<div class="px-6 py-5 bg-blue-50/40 backdrop-blur-sm">
+<select id="archiveSelect" onchange="renderArchiveCycle(this.value)" class="w-full bg-white border border-blue-100 rounded-2xl px-4 py-3 text-gray-500 text-[11px] font-black uppercase tracking-widest outline-none">
+</select>
+</div>
+
+<div id="archiveEmpty" class="hidden px-6 py-12 text-center text-gray-400 text-[11px] font-black uppercase tracking-widest">
+No archived cycle found
+</div>
+
+<div id="archiveTableWrap" class="overflow-x-auto">
+<table class="text-left">
+<thead class="bg-gray-50/50">
+<tr class="text-gray-500 text-[11px] uppercase font-black tracking-widest">
+<th class="p-6 text-center w-20">SL</th>
+<th class="p-6 min-w-[163px]">Member Name</th>
+<th class="p-6">Date (Friday)</th>
+<th class="p-6 text-center w-32">Status</th>
+<th class="p-6 text-center w-32 bg-blue-50/30">Final Approval</th>
+</tr>
+</thead>
+<tbody id="archive-table-body"></tbody>
+</table>
+</div>
+
+</div>
+</div>
+
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getDatabase, ref, onValue, update } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
@@ -235,7 +276,7 @@ const db=getDatabase(app);
 const dbRef=ref(db,'clean_system');
 const TOTAL_MEMBERS = 6;
 
-let appData={}, memberNames = Array(TOTAL_MEMBERS).fill("Name");
+let appData={}, archiveData={}, memberNames = Array(TOTAL_MEMBERS).fill("Name");
 let activeCellId=null,isAdmin=false,startFriday=null;
 
 const getNextFriday=d=>{
@@ -247,6 +288,7 @@ return d;
 onValue(dbRef,async snap=>{
 const data=snap.val()||{};
 appData=data.status||{};
+archiveData=data.archive||{};
 memberNames=data.names||memberNames;
 
 if(!data.startFriday){
@@ -321,6 +363,7 @@ if(sc===6 && ac<6) waitMsg.classList.remove('hidden');
 else waitMsg.classList.add('hidden');
 
 document.getElementById('adminToggle').innerText = isAdmin ? 'ADMIN MODE · LOGOUT' : 'Dream City Mess - Skjisan';
+document.getElementById('adminPanel').classList.toggle('hidden',!isAdmin);
 
 // Update Icons based on current state
 const isDark = document.body.classList.contains('dark');
@@ -333,13 +376,39 @@ if(sunIcon && moonIcon) {
 }
 
 function cycleComplete(){
+return isCycleComplete(appData);
+}
+
+function isCycleComplete(statusData){
 let d=new Date(startFriday);
 for(let i=0;i<TOTAL_MEMBERS;i++){
 const k=`${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`;
-if(!appData[k]||!appData[k+'_appr']) return false;
+if(!statusData[k]||!statusData[k+'_appr']) return false;
 d.setDate(d.getDate()+7);
 }
 return true;
+}
+
+function buildArchiveEntry(statusData){
+let d=new Date(startFriday);
+const rows=[];
+for(let i=0;i<TOTAL_MEMBERS;i++){
+const k=`${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`;
+rows.push({
+sl:i+1,
+name:memberNames[i]||'Name',
+date:d.toISOString(),
+status:statusData[k]||'',
+approval:statusData[k+'_appr']||''
+});
+d.setDate(d.getDate()+7);
+}
+return {
+startFriday:startFriday.toISOString(),
+endFriday:rows[rows.length-1].date,
+archivedAt:new Date().toISOString(),
+rows
+};
 }
 
 window.toggleAdmin=()=>{
@@ -358,19 +427,24 @@ renderUI();
 
 window.confirmAction=async status=>{
 if(!activeCellId) return;
-await update(ref(db,'clean_system/status'),{[activeCellId]:status});
+const nextStatusData={...appData,[activeCellId]:status};
 
-if(isAdmin && activeCellId.endsWith('_appr') && cycleComplete()){
+if(isAdmin && activeCellId.endsWith('_appr') && isCycleComplete(nextStatusData)){
 const next = new Date(startFriday);
 next.setDate(next.getDate() + (TOTAL_MEMBERS * 7));
+const archiveId=startFriday.toISOString().replace(/[.#$\[\]]/g,'_');
+const archiveEntry=buildArchiveEntry(nextStatusData);
 document.getElementById('nextCycleText').innerText=
 `Next cycle starts from: ${next.toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})}`;
 document.getElementById('cycleModal').classList.add('active');
 await update(dbRef,{
+  [`archive/${archiveId}`]: archiveEntry,
   startFriday: next.toISOString(),
   status: {},
   names: Array(TOTAL_MEMBERS).fill("Name")
 });
+}else{
+await update(ref(db,'clean_system/status'),{[activeCellId]:status});
 }
 closeModal();
 };
@@ -402,6 +476,84 @@ window.saveName=(i,v)=>{
     memberNames[i]=v.trim() === '' ? 'Name' : v.trim();
     update(dbRef,{names:memberNames});
 };
+
+function formatArchiveLabel(cycle){
+const start=new Date(cycle.startFriday);
+const end=new Date(cycle.endFriday);
+return `${start.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})} - ${end.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}`;
+}
+
+function escapeHTML(value){
+return String(value).replace(/[&<>"']/g,char=>({
+'&':'&amp;',
+'<':'&lt;',
+'>':'&gt;',
+'"':'&quot;',
+"'":'&#39;'
+}[char]));
+}
+
+window.openArchiveModal=()=>{
+if(!isAdmin) return;
+const modal=document.getElementById('archiveModal');
+const select=document.getElementById('archiveSelect');
+const keys=Object.keys(archiveData).sort((a,b)=>{
+const ad=new Date(archiveData[a].archivedAt||archiveData[a].startFriday||0);
+const bd=new Date(archiveData[b].archivedAt||archiveData[b].startFriday||0);
+return bd-ad;
+});
+
+select.innerHTML='';
+if(!keys.length){
+document.getElementById('archiveEmpty').classList.remove('hidden');
+document.getElementById('archiveTableWrap').classList.add('hidden');
+select.classList.add('hidden');
+}else{
+document.getElementById('archiveEmpty').classList.add('hidden');
+document.getElementById('archiveTableWrap').classList.remove('hidden');
+select.classList.remove('hidden');
+keys.forEach(key=>{
+const option=document.createElement('option');
+option.value=key;
+option.textContent=formatArchiveLabel(archiveData[key]);
+select.appendChild(option);
+});
+renderArchiveCycle(keys[0]);
+}
+modal.classList.add('active');
+};
+
+window.renderArchiveCycle=key=>{
+const cycle=archiveData[key];
+const tbody=document.getElementById('archive-table-body');
+tbody.innerHTML='';
+if(!cycle||!cycle.rows) return;
+
+cycle.rows.forEach((row,i)=>{
+const d=new Date(row.date);
+const name=escapeHTML(row.name||'Name');
+tbody.insertAdjacentHTML('beforeend',`
+<tr class="hover:bg-indigo-50/30 transition-all duration-300">
+    <td class="p-6 text-center text-gray-300 font-black">${row.sl||i+1}</td>
+    <td class="p-6">
+        <input value="${name}" readonly class="w-full bg-transparent font-bold text-gray-400 outline-none placeholder-gray-300">
+    </td>
+    <td class="p-6 text-gray-400 font-bold text-sm">
+        ${d.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}
+    </td>
+    <td class="p-6 text-center">
+        <div class="w-12 h-12 mx-auto flex items-center justify-center rounded-2xl border-2 font-black text-xl
+        ${row.status?row.status==='✔'?'text-green-600 bg-green-50 border-transparent':'text-red-600 bg-red-50 border-transparent':'border-dashed border-gray-200 text-gray-300'}">${row.status||''}</div>
+    </td>
+    <td class="p-6 text-center bg-blue-50/10">
+        <div class="w-12 h-12 mx-auto flex items-center justify-center rounded-2xl border-2 font-black text-xl
+        ${row.approval?row.approval==='✔'?'text-blue-600 bg-blue-100 border-transparent':'text-orange-600 bg-orange-100 border-transparent':'text-transparent'}">${row.approval||''}</div>
+    </td>
+</tr>`);
+});
+};
+
+window.closeArchiveModal=()=>document.getElementById('archiveModal').classList.remove('active');
 
 document.getElementById('darkToggle').addEventListener('click', function() {
     document.body.classList.toggle('dark');
