@@ -318,7 +318,7 @@ function renderUI(){
         const safeName=escapeHTML(memberNames[i]||'Name');
         const inputValue=memberNames[i] && memberNames[i] !== 'Name' ? safeName : '';
         const rating=memberStars[i]||0;
-        const showRating=inputValue && s==='✔';
+        const showRating=inputValue && s==='✔' && rating>0;
         if(s) sc++; if(a) ac++;
       
         const isToday = (k === todayStr);
@@ -501,7 +501,7 @@ window.saveStar=(i,rating)=>{
 };
 
 function renderStars(rating){
-return Array.from({length:5},(_,i)=>i<rating?'★':'☆').join('');
+return Array.from({length:rating},()=>'★').join('');
 }
 
 function renderRatingButtons(memberIndex,rating){
@@ -568,7 +568,7 @@ cycle.rows.forEach((row,i)=>{
 const d=new Date(row.date);
 const name=escapeHTML(row.name||'Name');
 const rating=Number(row.stars)||0;
-const showRating=(row.name&&row.name!=='Name'&&row.status==='✔');
+const showRating=(row.name&&row.name!=='Name'&&row.status==='✔'&&rating>0);
 tbody.insertAdjacentHTML('beforeend',`
 <tr class="hover:bg-indigo-50/30 transition-all duration-300">
     <td class="p-6 text-center text-gray-300 font-black">${row.sl||i+1}</td>
