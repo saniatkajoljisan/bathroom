@@ -334,8 +334,9 @@ function renderUI(){
                        onchange="saveName(${i},this.value || 'Name')"
                        ${s&&!isAdmin?'readonly':''}
                        class="w-full bg-transparent font-bold ${isToday ? 'text-blue-700' : (s&&!isAdmin?'text-gray-400':'text-gray-500')} outline-none placeholder-gray-300">
-                <div class="mt-1 text-[13px] leading-none text-amber-400 tracking-[0.15em] ${showRating?'':'hidden'}" aria-label="Performance rating ${rating} out of 5">
-                    ${renderStars(rating)}
+                <div class="mt-1 flex items-center gap-2 text-[13px] leading-none text-amber-400 ${showRating?'':'hidden'}" aria-label="Performance rating ${rating} out of 5">
+                    <span class="tracking-[0.15em]">${renderStars(rating)}</span>
+                    <span class="font-bold tracking-normal text-gray-500">${getRatingComment(rating)}</span>
                 </div>
                 ${isToday ? '<span class="text-[9px] font-black text-blue-600 uppercase tracking-widest">● Today\'s Turn</span>' : ''}
             </td>
@@ -510,6 +511,21 @@ return `${Array.from({length:fullStars},()=>'★').join('')}${hasHalf?`<span cla
 </span>`:''}`;
 }
 
+function getRatingComment(rating){
+const comments={
+1:'poor',
+1.5:'weak',
+2:'low',
+2.5:'fair',
+3:'average',
+3.5:'good',
+4:'very good',
+4.5:'excellent',
+5:'perfect'
+};
+return comments[Number(rating)]||'';
+}
+
 function renderRatingButtons(memberIndex,rating){
 return Array.from({length:5},(_,i)=>{
 const value=i+1;
@@ -586,8 +602,9 @@ tbody.insertAdjacentHTML('beforeend',`
     <td class="p-6 text-center text-gray-300 font-black">${row.sl||i+1}</td>
     <td class="p-6">
         <input value="${name}" readonly class="w-full bg-transparent font-bold text-gray-400 outline-none placeholder-gray-300">
-        <div class="mt-1 text-[13px] leading-none text-amber-400 tracking-[0.15em] ${showRating?'':'hidden'}" aria-label="Performance rating ${rating} out of 5">
-            ${renderStars(rating)}
+        <div class="mt-1 flex items-center gap-2 text-[13px] leading-none text-amber-400 ${showRating?'':'hidden'}" aria-label="Performance rating ${rating} out of 5">
+            <span class="tracking-[0.15em]">${renderStars(rating)}</span>
+            <span class="font-bold tracking-normal text-gray-500">${getRatingComment(rating)}</span>
         </div>
     </td>
     <td class="p-6 text-gray-400 font-bold text-sm">
