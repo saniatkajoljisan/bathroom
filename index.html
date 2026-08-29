@@ -160,8 +160,8 @@ class="text-center text-[10px] font-bold tracking-widest uppercase text-gray-400
 <table class="text-left">
 <thead class="bg-gray-50/50">
 <tr class="text-gray-500 text-[11px] uppercase font-black tracking-widest">
-<th class="p-6 text-center w-20">SL</th>
-<th class="p-6 min-w-[163px]">Member Name</th>
+<th class="w-11 px-2 py-6 text-center md:w-20 md:p-6">SL</th>
+<th class="p-6 min-w-[185px] md:min-w-[163px]">Member Name</th>
 <th class="p-6">Date (Friday)</th>
 <th class="p-6 text-center w-32">Status</th>
 <th class="p-6 text-center w-32 bg-blue-50/30">Final Approval</th>
@@ -244,8 +244,8 @@ No archived cycle found
 <table class="text-left">
 <thead class="bg-gray-50/50">
 <tr class="text-gray-500 text-[11px] uppercase font-black tracking-widest">
-<th class="p-6 text-center w-20">SL</th>
-<th class="p-6 min-w-[163px]">Member Name</th>
+<th class="w-11 px-2 py-6 text-center md:w-20 md:p-6">SL</th>
+<th class="p-6 min-w-[185px] md:min-w-[163px]">Member Name</th>
 <th class="p-6">Date (Friday)</th>
 <th class="p-6 text-center w-32">Status</th>
 <th class="p-6 text-center w-32 bg-blue-50/30">Final Approval</th>
@@ -325,7 +325,7 @@ function renderUI(){
 
         tbody.insertAdjacentHTML('beforeend',`
         <tr class="${isToday ? 'bg-blue-50/50 shadow-sm' : 'hover:bg-indigo-50/30'} transition-all duration-300">
-            <td class="p-6 text-center ${isToday ? 'text-blue-600' : 'text-gray-300'} font-black">
+            <td class="w-11 px-2 py-6 text-center md:w-20 md:p-6 ${isToday ? 'text-blue-600' : 'text-gray-300'} font-black">
                 ${isToday ? '★' : i+1}
             </td>
             <td class="p-6">
@@ -599,7 +599,7 @@ const rating=Number(row.stars)||0;
 const showRating=(row.name&&row.name!=='Name'&&row.status==='✔'&&rating>0);
 tbody.insertAdjacentHTML('beforeend',`
 <tr class="hover:bg-indigo-50/30 transition-all duration-300">
-    <td class="p-6 text-center text-gray-300 font-black">${row.sl||i+1}</td>
+    <td class="w-11 px-2 py-6 text-center md:w-20 md:p-6 text-gray-300 font-black">${row.sl||i+1}</td>
     <td class="p-6">
         <input value="${name}" readonly class="w-full bg-transparent font-bold text-gray-400 outline-none placeholder-gray-300">
         <div class="mt-1 flex items-center gap-2 text-[13px] leading-none text-amber-400 ${showRating?'':'hidden'}" aria-label="Performance rating ${rating} out of 5">
