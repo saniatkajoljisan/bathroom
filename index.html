@@ -1,111 +1,360 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Bathroom Clean Schedule - Live System</title>
-<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 <link rel="stylesheet" href="/bathroom/flip.css" />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;900&display=swap" rel="stylesheet">
 
 <style>
+/* Offline Tailwind-compatible CSS for this page */
+*,::before,::after {
+  box-sizing:border-box;
+  border-width:0;
+  border-style:solid;
+  border-color:#e5e7eb;
+}
+html {
+  line-height:1.5;
+  -webkit-text-size-adjust:100%;
+  tab-size:4;
+  font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+body { margin:0; line-height:inherit; }
+h1,h2,h3,p { margin:0; font-size:inherit; font-weight:inherit; }
+button,input,select,textarea {
+  font-family:inherit;
+  font-size:100%;
+  font-weight:inherit;
+  line-height:inherit;
+  letter-spacing:inherit;
+  color:inherit;
+  margin:0;
+  padding:0;
+}
+button,[type="button"],[type="reset"],[type="submit"] {
+  -webkit-appearance:button;
+  background-color:transparent;
+  background-image:none;
+}
+button,select { text-transform:none; }
+button { cursor:pointer; text-align:inherit; }
+select { cursor:pointer; }
+table { text-indent:0; border-color:inherit; border-collapse:collapse; }
+input::placeholder,textarea::placeholder { opacity:1; color:#9ca3af; }
+[hidden] { display:none !important; }
+
+/* Layout */
+.absolute { position:absolute; }
+.relative { position:relative; }
+.mx-auto { margin-left:auto; margin-right:auto; }
+.mt-1 { margin-top:.25rem; }
+.mt-6 { margin-top:1.5rem; }
+.mt-12 { margin-top:3rem; }
+.-mt-4 { margin-top:-1rem; }
+.mb-1 { margin-bottom:.25rem; }
+.mb-2 { margin-bottom:.5rem; }
+.mb-4 { margin-bottom:1rem; }
+.mb-6 { margin-bottom:1.5rem; }
+.mb-8 { margin-bottom:2rem; }
+.block { display:block; }
+.inline-block,.d-inline-block { display:inline-block; }
+.flex { display:flex; }
+.hidden { display:none !important; }
+.h-2 { height:.5rem; }
+.h-6 { height:1.5rem; }
+.h-12 { height:3rem; }
+.h-full { height:100%; }
+.max-h-\[90vh\] { max-height:90vh; }
+.max-w-4xl { max-width:56rem; }
+.min-w-\[210px\] { min-width:210px; }
+.w-0 { width:0; }
+.w-5 { width:1.25rem; }
+.w-11 { width:2.75rem; }
+.w-12 { width:3rem; }
+.w-20 { width:5rem; }
+.w-32 { width:8rem; }
+.w-44 { width:11rem; }
+.w-80 { width:20rem; }
+.w-96 { width:24rem; }
+.w-\[1em\] { width:1em; }
+.w-\[94vw\] { width:94vw; }
+.w-1\/2 { width:50%; }
+.w-full { width:100%; }
+.flex-1 { flex:1 1 0%; }
+.items-center { align-items:center; }
+.justify-between { justify-content:space-between; }
+.justify-center { justify-content:center; }
+.gap-1 { gap:.25rem; }
+.gap-1\.5 { gap:.375rem; }
+.gap-2 { gap:.5rem; }
+.gap-3 { gap:.75rem; }
+.space-y-3 > :not([hidden]) ~ :not([hidden]) { margin-top:.75rem; }
+.space-y-6 > :not([hidden]) ~ :not([hidden]) { margin-top:1.5rem; }
+.overflow-hidden { overflow:hidden; }
+.overflow-x-auto { overflow-x:auto; }
+.overflow-y-auto { overflow-y:auto; }
+.inset-0 { inset:0; }
+.top-0 { top:0; }
+.top-1\/2 { top:50%; }
+.top-3\/4 { top:75%; }
+.left-0 { left:0; }
+.right-0 { right:0; }
+.right-1 { right:.25rem; }
+.right-5 { right:1.25rem; }
+.-translate-y-1\/2 { transform:translateY(-50%); }
+.cursor-pointer { cursor:pointer; }
+.pointer-events-none { pointer-events:none; }
+.align-middle { vertical-align:middle; }
+
+/* Spacing and borders */
+.border { border-width:1px; }
+.border-0 { border-width:0; }
+.border-2 { border-width:2px; }
+.border-solid { border-style:solid; }
+.border-dashed { border-style:dashed; }
+.border-transparent { border-color:transparent; }
+.border-white { border-color:#fff; }
+.border-blue-100 { border-color:#dbeafe; }
+.border-blue-300 { border-color:#93c5fd; }
+.border-blue-400 { border-color:#60a5fa; }
+.border-gray-200 { border-color:#e5e7eb; }
+.border-gray-300 { border-color:#d1d5db; }
+.border-green-500 { border-color:#22c55e; }
+.border-red-500 { border-color:#ef4444; }
+.rounded-full { border-radius:9999px; }
+.rounded-2xl { border-radius:1rem; }
+.rounded-\[32px\] { border-radius:32px; }
+.p-0 { padding:0; }
+.p-2 { padding:.5rem; }
+.p-5 { padding:1.25rem; }
+.p-6 { padding:1.5rem; }
+.p-8 { padding:2rem; }
+.p-10 { padding:2.5rem; }
+.px-2 { padding-left:.5rem; padding-right:.5rem; }
+.px-4 { padding-left:1rem; padding-right:1rem; }
+.px-5 { padding-left:1.25rem; padding-right:1.25rem; }
+.px-6 { padding-left:1.5rem; padding-right:1.5rem; }
+.px-8 { padding-left:2rem; padding-right:2rem; }
+.py-2 { padding-top:.5rem; padding-bottom:.5rem; }
+.py-3 { padding-top:.75rem; padding-bottom:.75rem; }
+.py-4 { padding-top:1rem; padding-bottom:1rem; }
+.py-5 { padding-top:1.25rem; padding-bottom:1.25rem; }
+.py-6 { padding-top:1.5rem; padding-bottom:1.5rem; }
+.py-12 { padding-top:3rem; padding-bottom:3rem; }
+.pt-4 { padding-top:1rem; }
+.pb-10 { padding-bottom:2.5rem; }
+
+/* Backgrounds */
+.bg-transparent { background-color:transparent; }
+.bg-white { background-color:#fff; }
+.bg-white\/20 { background-color:rgb(255 255 255 / .2); }
+.bg-gray-50 { background-color:#f9fafb; }
+.bg-gray-50\/50 { background-color:rgb(249 250 251 / .5); }
+.bg-blue-50\/10 { background-color:rgb(239 246 255 / .1); }
+.bg-blue-50\/30 { background-color:rgb(239 246 255 / .3); }
+.bg-blue-50\/40 { background-color:rgb(239 246 255 / .4); }
+.bg-blue-50\/50 { background-color:rgb(239 246 255 / .5); }
+.bg-blue-100 { background-color:#dbeafe; }
+.bg-blue-100\/20 { background-color:rgb(219 234 254 / .2); }
+.bg-blue-100\/50 { background-color:rgb(219 234 254 / .5); }
+.bg-blue-600 { background-color:#2563eb; }
+.bg-green-50 { background-color:#f0fdf4; }
+.bg-red-50 { background-color:#fef2f2; }
+.bg-orange-100 { background-color:#ffedd5; }
+.bg-gradient-to-r { background-image:linear-gradient(to right,var(--tw-gradient-stops)); }
+.from-blue-400 {
+  --tw-gradient-from:#60a5fa;
+  --tw-gradient-to:rgb(96 165 250 / 0);
+  --tw-gradient-stops:var(--tw-gradient-from),var(--tw-gradient-to);
+}
+.from-blue-600 {
+  --tw-gradient-from:#2563eb;
+  --tw-gradient-to:rgb(37 99 235 / 0);
+  --tw-gradient-stops:var(--tw-gradient-from),var(--tw-gradient-to);
+}
+.to-blue-400 { --tw-gradient-to:#60a5fa; }
+.to-blue-600 { --tw-gradient-to:#2563eb; }
+
+/* Typography */
+.text-left { text-align:left; }
+.text-center { text-align:center; }
+.text-transparent { color:transparent; }
+.text-white { color:#fff; }
+.text-white\/90 { color:rgb(255 255 255 / .9); }
+.text-gray-300 { color:#d1d5db; }
+.text-gray-400 { color:#9ca3af; }
+.text-gray-500 { color:#6b7280; }
+.text-gray-600 { color:#4b5563; }
+.text-gray-800 { color:#1f2937; }
+.text-blue-300 { color:#93c5fd; }
+.text-blue-400 { color:#60a5fa; }
+.text-blue-600 { color:#2563eb; }
+.text-blue-700 { color:#1d4ed8; }
+.text-green-400 { color:#4ade80; }
+.text-green-500 { color:#22c55e; }
+.text-green-600 { color:#16a34a; }
+.text-red-600 { color:#dc2626; }
+.text-orange-600 { color:#ea580c; }
+.text-amber-400 { color:#fbbf24; }
+.text-\[9px\] { font-size:9px; }
+.text-\[10px\] { font-size:10px; }
+.text-\[11px\] { font-size:11px; }
+.text-\[13px\] { font-size:13px; }
+.text-\[14px\] { font-size:14px; }
+.text-\[16px\] { font-size:16px; }
+.text-sm { font-size:.875rem; line-height:1.25rem; }
+.text-lg { font-size:1.125rem; line-height:1.75rem; }
+.text-xl { font-size:1.25rem; line-height:1.75rem; }
+.text-2xl { font-size:1.5rem; line-height:2rem; }
+.text-4xl { font-size:2.25rem; line-height:2.5rem; }
+.font-medium { font-weight:500; }
+.font-bold { font-weight:700; }
+.font-black { font-weight:900; }
+.italic { font-style:italic; }
+.uppercase { text-transform:uppercase; }
+.leading-none { line-height:1; }
+.leading-6 { line-height:1.5rem; }
+.tracking-wider { letter-spacing:.05em; }
+.tracking-widest { letter-spacing:.1em; }
+.tracking-\[0\.12em\] { letter-spacing:.12em; }
+.tracking-\[0\.15em\] { letter-spacing:.15em; }
+.tracking-\[0\.3em\] { letter-spacing:.3em; }
+.outline-none { outline:2px solid transparent; outline-offset:2px; }
+.placeholder-gray-300::placeholder { color:#d1d5db; opacity:1; }
+.drop-shadow-md {
+  filter:drop-shadow(0 4px 3px rgb(0 0 0 / .07)) drop-shadow(0 2px 2px rgb(0 0 0 / .06));
+}
+.opacity-90 { opacity:.9; }
+
+/* Effects */
+.shadow-sm { box-shadow:0 1px 2px 0 rgb(0 0 0 / .05); }
+.shadow-2xl { box-shadow:0 25px 50px -12px rgb(0 0 0 / .25); }
+.backdrop-blur-sm {
+  -webkit-backdrop-filter:blur(4px);
+  backdrop-filter:blur(4px);
+}
+.transition-all {
+  transition-property:all;
+  transition-timing-function:cubic-bezier(.4,0,.2,1);
+  transition-duration:150ms;
+}
+.duration-300 { transition-duration:300ms; }
+.duration-500 { transition-duration:500ms; }
+.animate-pulse { animation:pulse 2s cubic-bezier(.4,0,.6,1) infinite; }
+@keyframes pulse {
+  0%,100% { opacity:1; }
+  50% { opacity:.5; }
+}
+
+/* Hover */
+.hover\:bg-indigo-50\/30:hover { background-color:rgb(238 242 255 / .3); }
+.hover\:bg-white\/30:hover { background-color:rgb(255 255 255 / .3); }
+.hover\:text-white:hover { color:#fff; }
+
+/* Responsive */
+@media (min-width:768px) {
+  .md\:px-0 { padding-left:0; padding-right:0; }
+  .md\:pt-10 { padding-top:2.5rem; }
+  .md\:text-2xl { font-size:1.5rem; line-height:2rem; }
+  .md\:text-3xl { font-size:1.875rem; line-height:2.25rem; }
+  .md\:tracking-\[0\.25em\] { letter-spacing:.25em; }
+  .md\:min-w-\[163px\] { min-width:163px; }
+  .md\:w-20 { width:5rem; }
+  .md\:p-6 { padding:1.5rem; }
+}
+
+/* Original custom CSS */
 body { font-family:'Inter',sans-serif; background:#f3f4f7; margin:0; }
 html { scroll-behavior:smooth; }
 
-.modal{
-  display:none; position:fixed; inset:0;
+.modal {
+  display:none;
+  position:fixed;
+  inset:0;
   background:rgba(0,0,0,.6);
-  align-items:center; justify-content:center;
-  z-index:1000; backdrop-filter:blur(4px);
+  align-items:center;
+  justify-content:center;
+  z-index:1000;
+  backdrop-filter:blur(4px);
 }
-.modal.active{ display:flex; }
+.modal.active { display:flex; }
 
-table{ border-spacing:0; width:100%; border-radius:20px; }
-th,td{ border-bottom:1px solid #f0f0f0; }
+table { border-spacing:0; width:100%; border-radius:20px; }
+th,td { border-bottom:1px solid #f0f0f0; }
 
-.box-shadow-custom{ box-shadow:0 20px 50px rgba(0,0,0,.05); }
+.box-shadow-custom { box-shadow:0 20px 50px rgba(0,0,0,.05); }
 
-.sticky-header{
-  position:sticky; top:0; z-index:999;
+.sticky-header {
+  position:sticky;
+  top:0;
+  z-index:999;
   background:linear-gradient(135deg,rgba(38,135,231,.85),rgba(207,228,241,.65));
   backdrop-filter:blur(1px) saturate(180%);
   border-bottom:1px solid rgba(255,255,255,.25);
   box-shadow:inset 0 1px 0 rgba(255,255,255,.35),0 8px 30px rgba(0,0,0,.15);
 }
 body.dark {
-    background: #0f172a;
-    color: #e2e8f0;
+  background:#0f172a;
+  color:#e2e8f0;
 }
-body.dark .bg-white { background: #1e293b !important; border-color: #334155 !important; }
-body.dark .bg-blue-50\/40 { background: rgba(30, 41, 59, 0.6) !important; }
-body.dark .text-gray-600 { color: #94a3b8 !important; }
-body.dark .text-gray-400 { color: #64748b !important; }
-body.dark .text-gray-800 { color: #64748b !important; }
-body.dark .text-gray-500 { color: #94a3b8 !important; }
-body.dark .text-gray-300 { color: #cbd5e1 !important; }
-body.dark th { color: #94a3b8 !important; }
-body.dark .bg-gray-50\/50 { background: rgba(30, 41, 59, 0.3) !important; }
-body.dark .hover\:bg-indigo-50\/30:hover { background: rgba(99, 102, 241, 0.1)!important; }
-body.dark .bg-blue-50\/10 { background: rgba(59, 130, 246, 0.1) !important; }
-body.dark .bg-green-50 { background: rgba(34, 197, 94, 0.2) !important; }
-body.dark .bg-red-50 { background: rgba(248, 113, 113, 0.2) !important; }
-body.dark .bg-blue-100 { background: rgba(96, 165, 250, 0.3) !important; }
-body.dark .bg-orange-100 { background: rgba(251, 191, 36, 0.2) !important; }
-body.dark input::placeholder { color: #64748b !important; }
-body.dark input[readonly] { color: #94a3b8 !important; }
-body.dark th, body.dark td { border-bottom-color: #334155 !important; }
+body.dark .bg-white { background:#1e293b !important; border-color:#334155 !important; }
+body.dark .bg-blue-50\/40 { background:rgba(30,41,59,.6) !important; }
+body.dark .text-gray-600 { color:#94a3b8 !important; }
+body.dark .text-gray-400 { color:#64748b !important; }
+body.dark .text-gray-800 { color:#64748b !important; }
+body.dark .text-gray-500 { color:#94a3b8 !important; }
+body.dark .text-gray-300 { color:#cbd5e1 !important; }
+body.dark th { color:#94a3b8 !important; }
+body.dark .bg-gray-50\/50 { background:rgba(30,41,59,.3) !important; }
+body.dark .hover\:bg-indigo-50\/30:hover { background:rgba(99,102,241,.1) !important; }
+body.dark .bg-blue-50\/10 { background:rgba(59,130,246,.1) !important; }
+body.dark .bg-green-50 { background:rgba(34,197,94,.2) !important; }
+body.dark .bg-red-50 { background:rgba(248,113,113,.2) !important; }
+body.dark .bg-blue-100 { background:rgba(96,165,250,.3) !important; }
+body.dark .bg-orange-100 { background:rgba(251,191,36,.2) !important; }
+body.dark input::placeholder { color:#64748b !important; }
+body.dark input[readonly] { color:#94a3b8 !important; }
+body.dark th,body.dark td { border-bottom-color:#334155 !important; }
 
 @keyframes blink {
-  0%, 50% { opacity: 1; }
-  51%, 100% { opacity: 0.3; }
+  0%,50% { opacity:1; }
+  51%,100% { opacity:.3; }
 }
+#live-indicator { animation:blink 1.5s infinite; }
 
-#live-indicator {
-  animation: blink 1.5s infinite;
-}
 .marquee-container {
-  overflow: hidden;
-  white-space: nowrap;
-  border: 1px solid #699ef5;
-  padding: 4px;
-  border-radius: 6px;
-  position: relative;
-  margin-top: 8px;
-  font-size: 11px;
-  font-weight: 650; 
-  letter-spacing: 1.5px;
-  }
-
+  overflow:hidden;
+  white-space:nowrap;
+  border:1px solid #699ef5;
+  padding:4px;
+  border-radius:6px;
+  position:relative;
+  margin-top:8px;
+  font-size:11px;
+  font-weight:650;
+  letter-spacing:1.5px;
+}
 .marquee-text {
-  display: inline-block;
-  padding-left: 100%;
-  color: rgba(70, 153, 236, 0.85);
-  animation: scroll-left 12s linear infinite;
+  display:inline-block;
+  padding-left:100%;
+  color:rgba(70,153,236,.85);
+  animation:scroll-left 12s linear infinite;
 }
-
-/* Smooth scrolling animation */
 @keyframes scroll-left {
-  0% {
-    transform: translateX(0%);
-  }
-  100% {
-    transform: translateX(-100%);
-  }
+  0% { transform:translateX(0%); }
+  100% { transform:translateX(-100%); }
 }
-
-/* Hover করলে pause হবে (optional but nice 👍) */
-.marquee-container:hover .marquee-text {
-  animation-play-state: paused;
-}
+.marquee-container:hover .marquee-text { animation-play-state:paused; }
 </style>
 </head>
 
 <body class="pb-10">
 <script>
-    if (localStorage.getItem('theme') === 'dark') {
-        document.body.classList.add('dark');
-    }
+if (localStorage.getItem('theme') === 'dark') {
+  document.body.classList.add('dark');
+}
 </script>
 
 <div class="max-w-4xl mx-auto px-4 md:px-0 pt-4 md:pt-10 space-y-6">
@@ -114,10 +363,12 @@ body.dark th, body.dark td { border-bottom-color: #334155 !important; }
 
 <div class="sticky-header p-5 text-center text-white">
 <h1 class="text-[16px] md:text-3xl font-black uppercase tracking-[0.15em] md:tracking-[0.25em] drop-shadow-md text-center py-4">Bathroom Clean Schedule</h1>
+
 <button id="darkToggle" class="absolute right-1 top-3/4 -translate-y-1/2 p-2 rounded-full bg-white/20 hover:bg-white/30 transition-all">
-    <span class="sun-icon block">☀️</span>
-    <span class="moon-icon block hidden">🌙</span>
+  <span class="sun-icon block">☀️</span>
+  <span class="moon-icon block hidden">🌙</span>
 </button>
+
 <div id="live-indicator" class="text-[10px] opacity-90 font-bold mt-1 tracking-widest uppercase">
 Connecting...
 </div>
@@ -145,14 +396,14 @@ Connecting...
 </div>
 </div>
 
-<div id="waitingMsg"
-class="text-center text-[10px] font-bold tracking-widest uppercase text-gray-400 hidden">
+<div id="waitingMsg" class="text-center text-[10px] font-bold tracking-widest uppercase text-gray-400 hidden">
 ⏳ Waiting for admin final approval…
 </div>
+
 <div class="notice-box mb-2">
-    <div class="marquee-container">
-      <div id="monthMarquee" class="marquee-text">After cleaning the bathroom, enter your name and update the status to (✔️).</div>
-    </div>
+  <div class="marquee-container">
+    <div id="monthMarquee" class="marquee-text">After cleaning the bathroom, enter your name and update the status to (✔️).</div>
+  </div>
 </div>
 
 </div>
@@ -174,10 +425,14 @@ class="text-center text-[10px] font-bold tracking-widest uppercase text-gray-400
 </div>
 
 </div>
-<div style="background-color: rgba(30, 144, 255, 0.9); color: white; padding: 4px 10px; border-radius: 4px; text-align: center; text-transform: uppercase; font-size: 10px; font-weight: 800; letter-spacing: 2px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">🕒 Upcoming Friday In</div>
+
+<div style="background-color:rgba(30,144,255,.9);color:white;padding:4px 10px;border-radius:4px;text-align:center;text-transform:uppercase;font-size:10px;font-weight:800;letter-spacing:2px;box-shadow:0 2px 4px rgba(0,0,0,.1);">
+🕒 Upcoming Friday In
+</div>
+
 <div class="text-center">
-      <div id="flipdownTimer" class="flipdown d-inline-block"></div>
-  </div>
+  <div id="flipdownTimer" class="flipdown d-inline-block"></div>
+</div>
 </div>
 
 <p id="adminToggle"
@@ -214,9 +469,7 @@ Close
 <div id="cycleModal" class="modal">
 <div class="bg-white p-10 rounded-[32px] shadow-2xl w-96 text-center">
 <div class="text-green-500 text-4xl mb-4 font-black">✔</div>
-<h3 class="text-xl font-black text-gray-800 mb-2 uppercase">
-Cycle Completed
-</h3>
+<h3 class="text-xl font-black text-gray-800 mb-2 uppercase">Cycle Completed</h3>
 <p id="nextCycleText" class="text-gray-500 text-sm font-bold mb-6"></p>
 <button onclick="closeCycleModal()" class="px-8 py-3 rounded-2xl bg-blue-600 text-white font-black tracking-widest text-sm">
 OK
@@ -264,374 +517,431 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebas
 import { getDatabase, ref, onValue, update } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
 const firebaseConfig = {
-apiKey:"AIzaSyAlXlbUD2nlMsH7VtCiS9NjkMzpcDl38iE",
-authDomain:"bathroom-clean-c35e0.firebaseapp.com",
-databaseURL:"https://bathroom-clean-c35e0-default-rtdb.asia-southeast1.firebasedatabase.app",
-projectId:"bathroom-clean-c35e0",
-storageBucket:"bathroom-clean-c35e0.firebasestorage.app",
-messagingSenderId:"1060489726116",
-appId:"1:1060489726116:web:46c68029ecd2b216463e31"
+  apiKey:"AIzaSyAlXlbUD2nlMsH7VtCiS9NjkMzpcDl38iE",
+  authDomain:"bathroom-clean-c35e0.firebaseapp.com",
+  databaseURL:"https://bathroom-clean-c35e0-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId:"bathroom-clean-c35e0",
+  storageBucket:"bathroom-clean-c35e0.firebasestorage.app",
+  messagingSenderId:"1060489726116",
+  appId:"1:1060489726116:web:46c68029ecd2b216463e31"
 };
 
-const app=initializeApp(firebaseConfig);
-const db=getDatabase(app);
-const dbRef=ref(db,'clean_system');
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+const dbRef = ref(db,'clean_system');
 const TOTAL_MEMBERS = 6;
 
-let appData={}, archiveData={}, memberNames = Array(TOTAL_MEMBERS).fill("Name"), memberStars = Array(TOTAL_MEMBERS).fill(0);
-let activeCellId=null,isAdmin=false,startFriday=null;
+let appData = {};
+let archiveData = {};
+let memberNames = Array(TOTAL_MEMBERS).fill("Name");
+let memberStars = Array(TOTAL_MEMBERS).fill(0);
+let activeCellId = null;
+let isAdmin = false;
+let startFriday = null;
 
-const getNextFriday=d=>{
-d=new Date(d);
-d.setDate(d.getDate()+((5-d.getDay()+7)%7||7));
-return d;
+const getNextFriday = d => {
+  d = new Date(d);
+  d.setDate(d.getDate()+((5-d.getDay()+7)%7||7));
+  return d;
 };
 
-onValue(dbRef,async snap=>{
-const data=snap.val()||{};
-appData=data.status||{};
-archiveData=data.archive||{};
-memberNames=data.names||memberNames;
-memberStars=Array.from({length:TOTAL_MEMBERS},(_,i)=>Number(data.stars?.[i])||0);
+onValue(dbRef,async snap => {
+  const data = snap.val() || {};
+  appData = data.status || {};
+  archiveData = data.archive || {};
+  memberNames = data.names || memberNames;
+  memberStars = Array.from({length:TOTAL_MEMBERS},(_,i)=>Number(data.stars?.[i])||0);
 
-if(!data.startFriday){
-startFriday=getNextFriday(new Date());
-await update(dbRef,{startFriday:startFriday.toISOString()});
-}else startFriday=new Date(data.startFriday);
+  if(!data.startFriday) {
+    startFriday = getNextFriday(new Date());
+    await update(dbRef,{startFriday:startFriday.toISOString()});
+  } else {
+    startFriday = new Date(data.startFriday);
+  }
 
-document.getElementById('live-indicator').innerHTML=
-'<span class="flex items-center justify-center gap-1.5"><span class="text-green-400 text-lg">●</span>Live Sync Active</span>';
+  document.getElementById('live-indicator').innerHTML =
+    '<span class="flex items-center justify-center gap-1.5"><span class="text-green-400 text-lg">●</span>Live Sync Active</span>';
 
-renderUI();
+  renderUI();
 });
 
-function renderUI(){
-    const tbody=document.getElementById('table-body');
-    tbody.innerHTML='';
-    let d=new Date(startFriday), sc=0, ac=0;
-    
-    const today = new Date();
-    const todayStr = `${today.getFullYear()}-${today.getMonth()+1}-${today.getDate()}`;
+function renderUI() {
+  const tbody = document.getElementById('table-body');
+  tbody.innerHTML = '';
 
-    for(let i=0;i<TOTAL_MEMBERS;i++){
-        const k=`${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`;
-        const s=appData[k]||'', a=appData[k+'_appr']||'';
-        const safeName=escapeHTML(memberNames[i]||'Name');
-        const inputValue=memberNames[i] && memberNames[i] !== 'Name' ? safeName : '';
-        const rating=memberStars[i]||0;
-        const showRating=inputValue && s==='✔' && rating>0;
-        if(s) sc++; if(a) ac++;
-      
-        const isToday = (k === todayStr);
+  let d = new Date(startFriday);
+  let sc = 0;
+  let ac = 0;
 
-        tbody.insertAdjacentHTML('beforeend',`
-        <tr class="${isToday ? 'bg-blue-50/50 shadow-sm' : 'hover:bg-indigo-50/30'} transition-all duration-300">
-            <td class="w-11 px-2 py-6 text-center md:w-20 md:p-6 ${isToday ? 'text-blue-600' : 'text-gray-300'} font-black">
-                ${isToday ? '★' : i+1}
-            </td>
-            <td class="p-6">
-                <input placeholder="${safeName}" 
-                       value="${inputValue}" 
-                       onchange="saveName(${i},this.value || 'Name')"
-                       ${s&&!isAdmin?'readonly':''}
-                       class="w-full bg-transparent font-bold ${isToday ? 'text-blue-700' : (s&&!isAdmin?'text-gray-400':'text-gray-500')} outline-none placeholder-gray-300">
-                <div class="mt-1 flex items-center gap-2 text-[13px] leading-none text-amber-400 ${showRating?'':'hidden'}" aria-label="Performance rating ${rating} out of 5">
-                    <span class="tracking-[0.15em]">${renderStars(rating)}</span>
-                    <span class="text-[10px] font-medium uppercase tracking-[0.12em] text-gray-400">${getRatingComment(rating)}</span>
-                </div>
-                ${isToday ? '<span class="text-[9px] font-black text-blue-600 uppercase tracking-widest">● Today\'s Turn</span>' : ''}
-            </td>
-            <td class="p-6 ${isToday ? 'text-blue-600' : 'text-gray-400'} font-bold text-sm">
-                ${d.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}
-            </td>
-            <td class="p-6 text-center">
-                <div onclick="${(!s||isAdmin)?`openModal('${k}', event)`:''}"
-                class="w-12 h-12 mx-auto flex items-center justify-center rounded-2xl border-2 font-black text-xl
-                ${s?s==='✔'?'text-green-600 bg-green-50 border-transparent':'text-red-600 bg-red-50 border-transparent'
-                :isToday ? 'border-blue-400 border-solid bg-blue-100/50 text-blue-400 cursor-pointer animate-pulse' : 'border-dashed border-gray-200 text-gray-300 cursor-pointer'}">${s}</div>
-            </td>
-            <td class="p-6 text-center ${isToday ? 'bg-blue-100/20' : 'bg-blue-50/10'}">
-                <div onclick="${isAdmin?`openModal('${k}_appr', event)`:''}"
-                class="w-12 h-12 mx-auto flex items-center justify-center rounded-2xl border-2 font-black text-xl
-                ${a?a==='✔'?'text-blue-600 bg-blue-100 border-transparent':'text-orange-600 bg-orange-100 border-transparent'
-                :isAdmin?'border-blue-300 text-blue-300 cursor-pointer':'text-transparent'}">${a}</div>
-            </td>
-            <td class="p-6 text-center ${isAdmin?'':'hidden'}">
-                <div class="flex items-center justify-center gap-1">
-                    ${renderRatingButtons(i,rating)}
-                </div>
-            </td>
-        </tr>`);
-        d.setDate(d.getDate()+7);
+  const today = new Date();
+  const todayStr = `${today.getFullYear()}-${today.getMonth()+1}-${today.getDate()}`;
+
+  for(let i=0;i<TOTAL_MEMBERS;i++) {
+    const k = `${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`;
+    const s = appData[k] || '';
+    const a = appData[k+'_appr'] || '';
+    const safeName = escapeHTML(memberNames[i] || 'Name');
+    const inputValue = memberNames[i] && memberNames[i] !== 'Name' ? safeName : '';
+    const rating = memberStars[i] || 0;
+    const showRating = inputValue && s === '✔' && rating > 0;
+
+    if(s) sc++;
+    if(a) ac++;
+
+    const isToday = (k === todayStr);
+
+    tbody.insertAdjacentHTML('beforeend',`
+      <tr class="${isToday ? 'bg-blue-50/50 shadow-sm' : 'hover:bg-indigo-50/30'} transition-all duration-300">
+        <td class="w-11 px-2 py-6 text-center md:w-20 md:p-6 ${isToday ? 'text-blue-600' : 'text-gray-300'} font-black">
+          ${isToday ? '★' : i+1}
+        </td>
+        <td class="p-6">
+          <input
+            placeholder="${safeName}"
+            value="${inputValue}"
+            onchange="saveName(${i},this.value || 'Name')"
+            ${s&&!isAdmin?'readonly':''}
+            class="w-full bg-transparent font-bold ${isToday ? 'text-blue-700' : (s&&!isAdmin?'text-gray-400':'text-gray-500')} outline-none placeholder-gray-300">
+
+          <div class="mt-1 flex items-center gap-2 text-[13px] leading-none text-amber-400 ${showRating?'':'hidden'}" aria-label="Performance rating ${rating} out of 5">
+            <span class="tracking-[0.15em]">${renderStars(rating)}</span>
+            <span class="text-[10px] font-medium uppercase tracking-[0.12em] text-gray-400">${getRatingComment(rating)}</span>
+          </div>
+          ${isToday ? '<span class="text-[9px] font-black text-blue-600 uppercase tracking-widest">● Today\'s Turn</span>' : ''}
+        </td>
+        <td class="p-6 ${isToday ? 'text-blue-600' : 'text-gray-400'} font-bold text-sm">
+          ${d.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}
+        </td>
+        <td class="p-6 text-center">
+          <div
+            onclick="${(!s||isAdmin)?`openModal('${k}', event)`:''}"
+            class="w-12 h-12 mx-auto flex items-center justify-center rounded-2xl border-2 font-black text-xl
+            ${s?s==='✔'?'text-green-600 bg-green-50 border-transparent':'text-red-600 bg-red-50 border-transparent'
+            :isToday ? 'border-blue-400 border-solid bg-blue-100/50 text-blue-400 cursor-pointer animate-pulse' : 'border-dashed border-gray-200 text-gray-300 cursor-pointer'}">${s}</div>
+        </td>
+        <td class="p-6 text-center ${isToday ? 'bg-blue-100/20' : 'bg-blue-50/10'}">
+          <div
+            onclick="${isAdmin?`openModal('${k}_appr', event)`:''}"
+            class="w-12 h-12 mx-auto flex items-center justify-center rounded-2xl border-2 font-black text-xl
+            ${a?a==='✔'?'text-blue-600 bg-blue-100 border-transparent':'text-orange-600 bg-orange-100 border-transparent'
+            :isAdmin?'border-blue-300 text-blue-300 cursor-pointer':'text-transparent'}">${a}</div>
+        </td>
+        <td class="p-6 text-center ${isAdmin?'':'hidden'}">
+          <div class="flex items-center justify-center gap-1">
+            ${renderRatingButtons(i,rating)}
+          </div>
+        </td>
+      </tr>
+    `);
+
+    d.setDate(d.getDate()+7);
+  }
+
+  const total = TOTAL_MEMBERS;
+  const sp = Math.round((sc/total)*100);
+  const ap = Math.round((ac/total)*100);
+
+  document.getElementById('statusBar').style.width = sp + '%';
+  document.getElementById('approvalBar').style.width = ap + '%';
+
+  document.getElementById('statusPercent').innerText = sc + ' OF ' + total;
+  document.getElementById('approvalPercent').innerText = ac + ' OF ' + total;
+
+  const waitMsg = document.getElementById('waitingMsg');
+  if(sc === 6 && ac < 6) waitMsg.classList.remove('hidden');
+  else waitMsg.classList.add('hidden');
+
+  document.getElementById('adminToggle').innerText =
+    isAdmin ? 'ADMIN MODE · LOGOUT' : 'Dream City Mess - Skjisan';
+
+  document.getElementById('adminPanel').classList.toggle('hidden',!isAdmin);
+  document.getElementById('ratingHeader').classList.toggle('hidden',!isAdmin);
+
+  const isDark = document.body.classList.contains('dark');
+  const sunIcon = document.querySelector('.sun-icon');
+  const moonIcon = document.querySelector('.moon-icon');
+
+  if(sunIcon && moonIcon) {
+    sunIcon.classList.toggle('hidden',isDark);
+    moonIcon.classList.toggle('hidden',!isDark);
+  }
+}
+
+function cycleComplete() {
+  return isCycleComplete(appData);
+}
+
+function isCycleComplete(statusData) {
+  let d = new Date(startFriday);
+
+  for(let i=0;i<TOTAL_MEMBERS;i++) {
+    const k = `${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`;
+    if(!statusData[k] || !statusData[k+'_appr']) return false;
+    d.setDate(d.getDate()+7);
+  }
+
+  return true;
+}
+
+function buildArchiveEntry(statusData) {
+  let d = new Date(startFriday);
+  const rows = [];
+
+  for(let i=0;i<TOTAL_MEMBERS;i++) {
+    const k = `${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`;
+
+    rows.push({
+      sl:i+1,
+      name:memberNames[i] || 'Name',
+      date:d.toISOString(),
+      status:statusData[k] || '',
+      approval:statusData[k+'_appr'] || '',
+      stars:memberStars[i] || 0
+    });
+
+    d.setDate(d.getDate()+7);
+  }
+
+  return {
+    startFriday:startFriday.toISOString(),
+    endFriday:rows[rows.length-1].date,
+    archivedAt:new Date().toISOString(),
+    rows
+  };
+}
+
+window.toggleAdmin = () => {
+  if(!isAdmin) {
+    const p = prompt("Admin Password:");
+
+    if(p === "sk77") {
+      isAdmin = true;
+      alert("Admin Mode Active");
+      renderUI();
     }
-const total = TOTAL_MEMBERS; 
-const sp = Math.round((sc/total)*100);
-const ap = Math.round((ac/total)*100);
-
-document.getElementById('statusBar').style.width = sp + '%';
-document.getElementById('approvalBar').style.width = ap + '%';
-
-document.getElementById('statusPercent').innerText = sc + ' OF ' + total;
-document.getElementById('approvalPercent').innerText = ac + ' OF ' + total;
-
-const waitMsg=document.getElementById('waitingMsg');
-if(sc===6 && ac<6) waitMsg.classList.remove('hidden');
-else waitMsg.classList.add('hidden');
-
-document.getElementById('adminToggle').innerText = isAdmin ? 'ADMIN MODE · LOGOUT' : 'Dream City Mess - Skjisan';
-document.getElementById('adminPanel').classList.toggle('hidden',!isAdmin);
-document.getElementById('ratingHeader').classList.toggle('hidden',!isAdmin);
-
-// Update Icons based on current state
-const isDark = document.body.classList.contains('dark');
-const sunIcon = document.querySelector('.sun-icon');
-const moonIcon = document.querySelector('.moon-icon');
-if(sunIcon && moonIcon) {
-    sunIcon.classList.toggle('hidden', isDark);
-    moonIcon.classList.toggle('hidden', !isDark);
-}
-}
-
-function cycleComplete(){
-return isCycleComplete(appData);
-}
-
-function isCycleComplete(statusData){
-let d=new Date(startFriday);
-for(let i=0;i<TOTAL_MEMBERS;i++){
-const k=`${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`;
-if(!statusData[k]||!statusData[k+'_appr']) return false;
-d.setDate(d.getDate()+7);
-}
-return true;
-}
-
-function buildArchiveEntry(statusData){
-let d=new Date(startFriday);
-const rows=[];
-for(let i=0;i<TOTAL_MEMBERS;i++){
-const k=`${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`;
-rows.push({
-sl:i+1,
-name:memberNames[i]||'Name',
-date:d.toISOString(),
-status:statusData[k]||'',
-approval:statusData[k+'_appr']||'',
-stars:memberStars[i]||0
-});
-d.setDate(d.getDate()+7);
-}
-return {
-startFriday:startFriday.toISOString(),
-endFriday:rows[rows.length-1].date,
-archivedAt:new Date().toISOString(),
-rows
-};
-}
-
-window.toggleAdmin=()=>{
-if(!isAdmin){
-const p=prompt("Admin Password:");
-if(p==="sk77"){
-isAdmin=true;
-alert("Admin Mode Active");
-renderUI();
-}
-}else{
-isAdmin=false;
-renderUI();
-}
+  } else {
+    isAdmin = false;
+    renderUI();
+  }
 };
 
-window.confirmAction=async status=>{
-if(!activeCellId) return;
-const nextStatusData={...appData,[activeCellId]:status};
+window.confirmAction = async status => {
+  if(!activeCellId) return;
 
-if(isAdmin && activeCellId.endsWith('_appr') && isCycleComplete(nextStatusData)){
-const next = new Date(startFriday);
-next.setDate(next.getDate() + (TOTAL_MEMBERS * 7));
-const archiveId=startFriday.toISOString().replace(/[.#$\[\]]/g,'_');
-const archiveEntry=buildArchiveEntry(nextStatusData);
-document.getElementById('nextCycleText').innerText=
-`Next cycle starts from: ${next.toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})}`;
-document.getElementById('cycleModal').classList.add('active');
-await update(dbRef,{
-  [`archive/${archiveId}`]: archiveEntry,
-  startFriday: next.toISOString(),
-  status: {},
-  names: Array(TOTAL_MEMBERS).fill("Name"),
-  stars: Array(TOTAL_MEMBERS).fill(0)
-});
-}else{
-await update(ref(db,'clean_system/status'),{[activeCellId]:status});
-}
-closeModal();
+  const nextStatusData = {...appData,[activeCellId]:status};
+
+  if(isAdmin && activeCellId.endsWith('_appr') && isCycleComplete(nextStatusData)) {
+    const next = new Date(startFriday);
+    next.setDate(next.getDate()+(TOTAL_MEMBERS*7));
+
+    const archiveId = startFriday.toISOString().replace(/[.#$\[\]]/g,'_');
+    const archiveEntry = buildArchiveEntry(nextStatusData);
+
+    document.getElementById('nextCycleText').innerText =
+      `Next cycle starts from: ${next.toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})}`;
+
+    document.getElementById('cycleModal').classList.add('active');
+
+    await update(dbRef,{
+      [`archive/${archiveId}`]:archiveEntry,
+      startFriday:next.toISOString(),
+      status:{},
+      names:Array(TOTAL_MEMBERS).fill("Name"),
+      stars:Array(TOTAL_MEMBERS).fill(0)
+    });
+  } else {
+    await update(ref(db,'clean_system/status'),{[activeCellId]:status});
+  }
+
+  closeModal();
 };
 
-window.openModal=(id, e)=>{
-if (!id.endsWith('_appr')) {
+window.openModal = (id,e) => {
+  if(!id.endsWith('_appr')) {
     const clickedRow = e.currentTarget.closest('tr');
     const inputField = clickedRow.querySelector('input');
     const nameValue = inputField.value.trim();
 
-    if (!nameValue || nameValue === "Name") {
-        alert("⚠️ Please enter your name first!");
-        return;
+    if(!nameValue || nameValue === "Name") {
+      alert("⚠️ Please enter your name first!");
+      return;
     }
-}
-activeCellId=id;
-document.getElementById('selectionModal').classList.add('active');
-document.getElementById('resetBtn').classList.toggle('hidden',!isAdmin);
+  }
+
+  activeCellId = id;
+  document.getElementById('selectionModal').classList.add('active');
+  document.getElementById('resetBtn').classList.toggle('hidden',!isAdmin);
 };
 
-window.closeModal=()=>{
-document.getElementById('selectionModal').classList.remove('active');
-activeCellId=null;
+window.closeModal = () => {
+  document.getElementById('selectionModal').classList.remove('active');
+  activeCellId = null;
 };
 
-window.closeCycleModal=()=>document.getElementById('cycleModal').classList.remove('active');
-
-window.saveName=(i,v)=>{
-    memberNames[i]=v.trim() === '' ? 'Name' : v.trim();
-    update(dbRef,{names:memberNames});
+window.closeCycleModal = () => {
+  document.getElementById('cycleModal').classList.remove('active');
 };
 
-window.saveStar=(i,rating)=>{
-    if(!isAdmin) return;
-    memberStars[i]=rating;
-    update(dbRef,{stars:memberStars});
+window.saveName = (i,v) => {
+  memberNames[i] = v.trim() === '' ? 'Name' : v.trim();
+  update(dbRef,{names:memberNames});
 };
 
-function renderStars(rating){
-const safeRating=Math.max(0,Math.min(5,Number(rating)||0));
-const fullStars=Math.floor(safeRating);
-const hasHalf=safeRating%1>=0.5;
-return `${Array.from({length:fullStars},()=>'★').join('')}${hasHalf?`<span class="relative inline-block w-[1em]" aria-hidden="true">
-    <span class="text-transparent">★</span>
-    <span class="absolute inset-0 overflow-hidden text-amber-400" style="width:50%">★</span>
-</span>`:''}`;
-}
-
-function getRatingComment(rating){
-const comments={
-1:'poor',
-1.5:'weak',
-2:'low',
-2.5:'fair',
-3:'average',
-3.5:'good',
-4:'very good',
-4.5:'excellent',
-5:'perfect'
-};
-return comments[Number(rating)]||'';
-}
-
-function renderRatingButtons(memberIndex,rating){
-return Array.from({length:5},(_,i)=>{
-const value=i+1;
-const halfValue=value-0.5;
-const fill=Math.max(0,Math.min(1,(Number(rating)||0)-i))*100;
-return `<span class="relative inline-block w-5 h-6 text-lg leading-6 text-gray-300 align-middle">
-    ☆
-    <span class="absolute inset-0 overflow-hidden text-amber-400 pointer-events-none" style="width:${fill}%">★</span>
-    <button onclick="saveStar(${memberIndex},${halfValue})" class="absolute left-0 top-0 h-full w-1/2 cursor-pointer border-0 bg-transparent p-0" aria-label="Give ${halfValue} star"></button>
-    <button onclick="saveStar(${memberIndex},${value})" class="absolute right-0 top-0 h-full w-1/2 cursor-pointer border-0 bg-transparent p-0" aria-label="Give ${value} star"></button>
-</span>`;
-}).join('');
-}
-
-function formatArchiveLabel(cycle){
-const start=new Date(cycle.startFriday);
-const end=new Date(cycle.endFriday);
-return `${start.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})} - ${end.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}`;
-}
-
-function escapeHTML(value){
-return String(value).replace(/[&<>"']/g,char=>({
-'&':'&amp;',
-'<':'&lt;',
-'>':'&gt;',
-'"':'&quot;',
-"'":'&#39;'
-}[char]));
-}
-
-window.openArchiveModal=()=>{
-if(!isAdmin) return;
-const modal=document.getElementById('archiveModal');
-const select=document.getElementById('archiveSelect');
-const keys=Object.keys(archiveData).sort((a,b)=>{
-const ad=new Date(archiveData[a].archivedAt||archiveData[a].startFriday||0);
-const bd=new Date(archiveData[b].archivedAt||archiveData[b].startFriday||0);
-return bd-ad;
-});
-
-select.innerHTML='';
-if(!keys.length){
-document.getElementById('archiveEmpty').classList.remove('hidden');
-document.getElementById('archiveTableWrap').classList.add('hidden');
-select.classList.add('hidden');
-}else{
-document.getElementById('archiveEmpty').classList.add('hidden');
-document.getElementById('archiveTableWrap').classList.remove('hidden');
-select.classList.remove('hidden');
-keys.forEach(key=>{
-const option=document.createElement('option');
-option.value=key;
-option.textContent=formatArchiveLabel(archiveData[key]);
-select.appendChild(option);
-});
-renderArchiveCycle(keys[0]);
-}
-modal.classList.add('active');
+window.saveStar = (i,rating) => {
+  if(!isAdmin) return;
+  memberStars[i] = rating;
+  update(dbRef,{stars:memberStars});
 };
 
-window.renderArchiveCycle=key=>{
-const cycle=archiveData[key];
-const tbody=document.getElementById('archive-table-body');
-tbody.innerHTML='';
-if(!cycle||!cycle.rows) return;
-//new features here
-cycle.rows.forEach((row,i)=>{
-const d=new Date(row.date);
-const name=escapeHTML(row.name||'Name');
-const rating=Number(row.stars)||0;
-const showRating=(row.name&&row.name!=='Name'&&row.status==='✔'&&rating>0);
-tbody.insertAdjacentHTML('beforeend',`
-<tr class="hover:bg-indigo-50/30 transition-all duration-300">
-    <td class="w-11 px-2 py-6 text-center md:w-20 md:p-6 text-gray-300 font-black">${row.sl||i+1}</td>
-    <td class="p-6">
-        <input value="${name}" readonly class="w-full bg-transparent font-bold text-gray-400 outline-none placeholder-gray-300">
-        <div class="mt-1 flex items-center gap-2 text-[13px] leading-none text-amber-400 ${showRating?'':'hidden'}" aria-label="Performance rating ${rating} out of 5">
+function renderStars(rating) {
+  const safeRating = Math.max(0,Math.min(5,Number(rating)||0));
+  const fullStars = Math.floor(safeRating);
+  const hasHalf = safeRating%1 >= 0.5;
+
+  return `${Array.from({length:fullStars},()=>'★').join('')}${hasHalf?`
+    <span class="relative inline-block w-[1em]" aria-hidden="true">
+      <span class="text-transparent">★</span>
+      <span class="absolute inset-0 overflow-hidden text-amber-400" style="width:50%">★</span>
+    </span>`:''}`;
+}
+
+function getRatingComment(rating) {
+  const comments = {
+    1:'poor',
+    1.5:'weak',
+    2:'low',
+    2.5:'fair',
+    3:'average',
+    3.5:'good',
+    4:'very good',
+    4.5:'excellent',
+    5:'perfect'
+  };
+
+  return comments[Number(rating)] || '';
+}
+
+function renderRatingButtons(memberIndex,rating) {
+  return Array.from({length:5},(_,i) => {
+    const value = i+1;
+    const halfValue = value-0.5;
+    const fill = Math.max(0,Math.min(1,(Number(rating)||0)-i))*100;
+
+    return `<span class="relative inline-block w-5 h-6 text-lg leading-6 text-gray-300 align-middle">
+      ☆
+      <span class="absolute inset-0 overflow-hidden text-amber-400 pointer-events-none" style="width:${fill}%">★</span>
+      <button onclick="saveStar(${memberIndex},${halfValue})" class="absolute left-0 top-0 h-full w-1/2 cursor-pointer border-0 bg-transparent p-0" aria-label="Give ${halfValue} star"></button>
+      <button onclick="saveStar(${memberIndex},${value})" class="absolute right-0 top-0 h-full w-1/2 cursor-pointer border-0 bg-transparent p-0" aria-label="Give ${value} star"></button>
+    </span>`;
+  }).join('');
+}
+
+function formatArchiveLabel(cycle) {
+  const start = new Date(cycle.startFriday);
+  const end = new Date(cycle.endFriday);
+
+  return `${start.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})} - ${end.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}`;
+}
+
+function escapeHTML(value) {
+  return String(value).replace(/[&<>"']/g,char => ({
+    '&':'&amp;',
+    '<':'&lt;',
+    '>':'&gt;',
+    '"':'&quot;',
+    "'":'&#39;'
+  }[char]));
+}
+
+window.openArchiveModal = () => {
+  if(!isAdmin) return;
+
+  const modal = document.getElementById('archiveModal');
+  const select = document.getElementById('archiveSelect');
+
+  const keys = Object.keys(archiveData).sort((a,b) => {
+    const ad = new Date(archiveData[a].archivedAt || archiveData[a].startFriday || 0);
+    const bd = new Date(archiveData[b].archivedAt || archiveData[b].startFriday || 0);
+    return bd-ad;
+  });
+
+  select.innerHTML = '';
+
+  if(!keys.length) {
+    document.getElementById('archiveEmpty').classList.remove('hidden');
+    document.getElementById('archiveTableWrap').classList.add('hidden');
+    select.classList.add('hidden');
+  } else {
+    document.getElementById('archiveEmpty').classList.add('hidden');
+    document.getElementById('archiveTableWrap').classList.remove('hidden');
+    select.classList.remove('hidden');
+
+    keys.forEach(key => {
+      const option = document.createElement('option');
+      option.value = key;
+      option.textContent = formatArchiveLabel(archiveData[key]);
+      select.appendChild(option);
+    });
+
+    renderArchiveCycle(keys[0]);
+  }
+
+  modal.classList.add('active');
+};
+
+window.renderArchiveCycle = key => {
+  const cycle = archiveData[key];
+  const tbody = document.getElementById('archive-table-body');
+  tbody.innerHTML = '';
+
+  if(!cycle || !cycle.rows) return;
+
+  cycle.rows.forEach((row,i) => {
+    const d = new Date(row.date);
+    const name = escapeHTML(row.name || 'Name');
+    const rating = Number(row.stars) || 0;
+    const showRating = (row.name && row.name !== 'Name' && row.status === '✔' && rating > 0);
+
+    tbody.insertAdjacentHTML('beforeend',`
+      <tr class="hover:bg-indigo-50/30 transition-all duration-300">
+        <td class="w-11 px-2 py-6 text-center md:w-20 md:p-6 text-gray-300 font-black">${row.sl || i+1}</td>
+        <td class="p-6">
+          <input value="${name}" readonly class="w-full bg-transparent font-bold text-gray-400 outline-none placeholder-gray-300">
+          <div class="mt-1 flex items-center gap-2 text-[13px] leading-none text-amber-400 ${showRating?'':'hidden'}" aria-label="Performance rating ${rating} out of 5">
             <span class="tracking-[0.15em]">${renderStars(rating)}</span>
             <span class="text-[10px] font-medium uppercase tracking-[0.12em] text-gray-400">${getRatingComment(rating)}</span>
-        </div>
-    </td>
-    <td class="p-6 text-gray-400 font-bold text-sm">
-        ${d.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}
-    </td>
-    <td class="p-6 text-center">
-        <div class="w-12 h-12 mx-auto flex items-center justify-center rounded-2xl border-2 font-black text-xl
-        ${row.status?row.status==='✔'?'text-green-600 bg-green-50 border-transparent':'text-red-600 bg-red-50 border-transparent':'border-dashed border-gray-200 text-gray-300'}">${row.status||''}</div>
-    </td>
-    <td class="p-6 text-center bg-blue-50/10">
-        <div class="w-12 h-12 mx-auto flex items-center justify-center rounded-2xl border-2 font-black text-xl
-        ${row.approval?row.approval==='✔'?'text-blue-600 bg-blue-100 border-transparent':'text-orange-600 bg-orange-100 border-transparent':'text-transparent'}">${row.approval||''}</div>
-    </td>
-</tr>`);
-});
+          </div>
+        </td>
+        <td class="p-6 text-gray-400 font-bold text-sm">
+          ${d.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}
+        </td>
+        <td class="p-6 text-center">
+          <div class="w-12 h-12 mx-auto flex items-center justify-center rounded-2xl border-2 font-black text-xl
+          ${row.status?row.status==='✔'?'text-green-600 bg-green-50 border-transparent':'text-red-600 bg-red-50 border-transparent':'border-dashed border-gray-200 text-gray-300'}">${row.status || ''}</div>
+        </td>
+        <td class="p-6 text-center bg-blue-50/10">
+          <div class="w-12 h-12 mx-auto flex items-center justify-center rounded-2xl border-2 font-black text-xl
+          ${row.approval?row.approval==='✔'?'text-blue-600 bg-blue-100 border-transparent':'text-orange-600 bg-orange-100 border-transparent':'text-transparent'}">${row.approval || ''}</div>
+        </td>
+      </tr>
+    `);
+  });
 };
 
-window.closeArchiveModal=()=>document.getElementById('archiveModal').classList.remove('active');
+window.closeArchiveModal = () => {
+  document.getElementById('archiveModal').classList.remove('active');
+};
 
-document.getElementById('darkToggle').addEventListener('click', function() {
-    document.body.classList.toggle('dark');
-    const isDark = document.body.classList.contains('dark');
-    localStorage.setItem('theme', isDark ? 'dark' : 'light');
-    renderUI(); // Re-render to update icons and the styles
+document.getElementById('darkToggle').addEventListener('click',function() {
+  document.body.classList.toggle('dark');
+
+  const isDark = document.body.classList.contains('dark');
+  localStorage.setItem('theme',isDark ? 'dark' : 'light');
+
+  renderUI();
 });
 </script>
+
 <script type="module" src="/bathroom/flip.js"></script>
 
 </body>
