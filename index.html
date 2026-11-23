@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -591,7 +592,7 @@ const cycle=archiveData[key];
 const tbody=document.getElementById('archive-table-body');
 tbody.innerHTML='';
 if(!cycle||!cycle.rows) return;
-
+//new features here
 cycle.rows.forEach((row,i)=>{
 const d=new Date(row.date);
 const name=escapeHTML(row.name||'Name');
@@ -628,7 +629,7 @@ document.getElementById('darkToggle').addEventListener('click', function() {
     document.body.classList.toggle('dark');
     const isDark = document.body.classList.contains('dark');
     localStorage.setItem('theme', isDark ? 'dark' : 'light');
-    renderUI(); // Re-render to update icons and styles
+    renderUI(); // Re-render to update icons and the styles
 });
 </script>
 <script type="module" src="/bathroom/flip.js"></script>
